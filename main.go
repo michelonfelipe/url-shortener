@@ -1,8 +1,19 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"os"
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+)
+
+const RELEASE_ENV_NAME = "release"
 
 func main() {
+	if os.Getenv("GIN_MODE") != RELEASE_ENV_NAME {
+		_ = godotenv.Load()
+	}
+
 	r := setupRouter()
 	r.Run()
 }
