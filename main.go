@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/felipe-michelon/url-shortener/database"
+
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -13,6 +15,8 @@ func main() {
 	if os.Getenv("GIN_MODE") != RELEASE_ENV_NAME {
 		_ = godotenv.Load()
 	}
+
+	database.SetupDB()
 
 	r := setupRouter()
 	r.Run()
