@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/felipe-michelon/url-shortener/controllers"
 	"github.com/felipe-michelon/url-shortener/database"
 	"github.com/felipe-michelon/url-shortener/models"
 
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -21,17 +21,5 @@ func main() {
 
 	models.Migrate()
 
-	r := setupRouter()
-	r.Run()
-}
-
-func setupRouter() *gin.Engine {
-	r := gin.Default()
-	r.GET("/hello", hello)
-
-	return r
-}
-
-func hello(c *gin.Context) {
-	c.String(200, "Hello there")
+	controllers.SetupRouter().Run()
 }

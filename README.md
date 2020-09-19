@@ -36,5 +36,5 @@ go run main.go
 Just run:
 
 ```shell
-go test
+go test ./...
 ```
