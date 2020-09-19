@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/felipe-michelon/url-shortener/database"
+	"github.com/felipe-michelon/url-shortener/models"
 
 	"os"
 
@@ -17,6 +18,8 @@ func main() {
 	}
 
 	database.SetupDB()
+
+	models.Migrate()
 
 	r := setupRouter()
 	r.Run()
