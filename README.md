@@ -50,3 +50,5 @@ Just run:
 ```shell
 go test ./...
 ```
+
+**NOTE:** To run tests, your local database should be empty. ~sorry, still working on that~

@@ -8,6 +8,7 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.GET("/", hello)
 	r.GET("/:shortened", FindUrl)
+	r.POST("/urls", CreateUrl)
 
 	return r
 }

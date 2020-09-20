@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/felipe-michelon/url-shortener/database"
 	"github.com/felipe-michelon/url-shortener/models"
+	"github.com/felipe-michelon/url-shortener/services"
 
 	"net/http"
 
@@ -20,4 +21,17 @@ func FindUrl(c *gin.Context) {
 	}
 
 	c.Redirect(http.StatusMovedPermanently, url.Original)
+}
+
+func CreateUrl(c *gin.Context) {
+	var params services.CreateParams
+	c.BindJSON(&params)
+
+	url, err := services.UrlCreator(params)
+
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+	}
+
+	c.JSON(http.StatusCreated, url)
 }
