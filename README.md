@@ -25,6 +25,18 @@ Mode that your app is running. It can be:
 -  `release`: production environment;
 -  `test`: test environment.
 
+#### `SHORTENED_URL_CHARS_NUMBER`
+Number of characters on the shortened URL path. Example:
+
+```
+SHORTENED_URL_CHARS_NUMBER=5
+host.com/XXXXX
+
+
+SHORTENED_URL_CHARS_NUMBER=10
+host.com/XXXXXXXXXX
+```
+
 ## Running the app
 Just run:
 
