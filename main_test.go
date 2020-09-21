@@ -1,6 +1,7 @@
-package controllers
+package main
 
 import (
+	"github.com/felipe-michelon/url-shortener/controllers"
 	"github.com/felipe-michelon/url-shortener/database"
 	"github.com/felipe-michelon/url-shortener/models"
 
@@ -10,9 +11,11 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
+	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,7 +25,7 @@ func TestGetExistingUrl(t *testing.T) {
 	database.DB.Create(&url)
 	defer database.DB.Unscoped().Delete(&url)
 
-	ts := httptest.NewServer(SetupRouter())
+	ts := httptest.NewServer(controllers.SetupRouter())
 	defer ts.Close()
 
 	client := &http.Client{
@@ -37,7 +40,7 @@ func TestGetExistingUrl(t *testing.T) {
 }
 
 func TestGetNonExistingUrl(t *testing.T) {
-	ts := httptest.NewServer(SetupRouter())
+	ts := httptest.NewServer(controllers.SetupRouter())
 	defer ts.Close()
 
 	req, _ := http.Get(fmt.Sprintf("%s/shortened", ts.URL))
@@ -49,7 +52,7 @@ func TestGetNonExistingUrl(t *testing.T) {
 }
 
 func TestCreateUrl(t *testing.T) {
-	ts := httptest.NewServer(SetupRouter())
+	ts := httptest.NewServer(controllers.SetupRouter())
 	defer ts.Close()
 
 	values := map[string]string{"original": "https://original.com"}
@@ -69,7 +72,7 @@ func TestCreateUrl(t *testing.T) {
 }
 
 func TestCreateInvalidUrl(t *testing.T) {
-	ts := httptest.NewServer(SetupRouter())
+	ts := httptest.NewServer(controllers.SetupRouter())
 	defer ts.Close()
 
 	values := map[string]int{"original": 2}
@@ -82,4 +85,26 @@ func TestCreateInvalidUrl(t *testing.T) {
 	)
 
 	assert.Equal(t, 400, req.StatusCode)
+}
+
+func TestHome(t *testing.T) {
+	ts := httptest.NewServer(controllers.SetupRouter())
+	defer ts.Close()
+
+	req, _ := http.Get(ts.URL)
+	body, _ := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+
+	assert.Equal(t, 200, req.StatusCode)
+	assert.True(t, strings.Contains(string(body), "Url shortener"))
+}
+
+func TestMain(m *testing.M) {
+	_ = godotenv.Load(".env")
+	database.SetupDB()
+	models.Migrate()
+
+	exitVal := m.Run()
+
+	os.Exit(exitVal)
 }

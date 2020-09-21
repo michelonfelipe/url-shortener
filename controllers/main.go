@@ -1,18 +1,22 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-	r.GET("/", hello)
+	r.LoadHTMLGlob("templates/*")
+
+	r.GET("/", home)
 	r.GET("/:shortened", FindUrl)
 	r.POST("/urls", CreateUrl)
 
 	return r
 }
 
-func hello(c *gin.Context) {
-	c.String(200, "Hello there")
+func home(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.tmpl", gin.H{})
 }

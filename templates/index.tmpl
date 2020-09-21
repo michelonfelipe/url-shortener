@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+    <style>
+      body{
+        background-color: black;
+        color: white;
+        font-family: Helvetica
+      }
+      .container {
+        text-align: center;
+      }
+      .form input[type=text] {
+        width: 300px
+      }
+      h3 a{
+        color: white
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <title>Url shortener</title>
+  <body>
+    <div class="container">
+      <h1>Url shortener</h1>
+
+      <div class="form">
+        <input type="text" name="original" id="originalUrl" placeholder="Url to be shortened..."/>
+        <button onClick="createShortenedUrl()">Shortify!</button>
+      </div>
+
+      <h3 id="result"></h3>
+    </div>
+  </body>
+  <script type="text/javascript">
+    function createShortenedUrl() {
+      const urlToBeShortened = document.getElementById('originalUrl').value
+      axios.post('/urls', {
+        original: urlToBeShortened,
+      })
+      .then(function (response) {
+        const fullResultUrl = `${window.location.href}${response.data.Shortened}`
+        document.getElementById('result').innerHTML = `<a href="${fullResultUrl}">${fullResultUrl}</a>`
+      })
+      .catch(function (error) {
+        document.getElementById('result').innerHTML = "<p>Something went wrong, try again</p>"
+      });
+    }
+  </script>
+</html>
