@@ -11,7 +11,7 @@ import (
 )
 
 type CreateParams struct {
-	Original string `json:"original"`
+	Original string `form:"original" json:"original" binding:"required"`
 }
 
 func UrlCreator(createParams CreateParams) (models.Url, error) {

@@ -54,6 +54,7 @@ func TestCreateUrl(t *testing.T) {
 
 	values := map[string]string{"original": "https://original.com"}
 	jsonValue, _ := json.Marshal(values)
+	defer database.DB.Where("original = ?", values["original"]).Unscoped().Delete(&models.Url{})
 
 	req, _ := http.Post(
 		fmt.Sprintf("%s/urls", ts.URL),
@@ -65,4 +66,20 @@ func TestCreateUrl(t *testing.T) {
 
 	assert.Equal(t, 201, req.StatusCode)
 	assert.True(t, strings.Contains(string(body), "ID"))
+}
+
+func TestCreateInvalidUrl(t *testing.T) {
+	ts := httptest.NewServer(SetupRouter())
+	defer ts.Close()
+
+	values := map[string]int{"original": 2}
+	jsonValue, _ := json.Marshal(values)
+
+	req, _ := http.Post(
+		fmt.Sprintf("%s/urls", ts.URL),
+		"application/json",
+		bytes.NewBuffer(jsonValue),
+	)
+
+	assert.Equal(t, 400, req.StatusCode)
 }

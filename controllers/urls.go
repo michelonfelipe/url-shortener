@@ -25,12 +25,19 @@ func FindUrl(c *gin.Context) {
 
 func CreateUrl(c *gin.Context) {
 	var params services.CreateParams
-	c.BindJSON(&params)
+	var err error
+	var url models.Url
 
-	url, err := services.UrlCreator(params)
-
+	err = c.ShouldBind(&params)
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	url, err = services.UrlCreator(params)
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusCreated, url)
