@@ -6,10 +6,10 @@ var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456
 
 func RandomStringGenerator(n int) string {
 	b := make([]rune, n)
-	lettersLength := len(letters)
+	lettersLength := int64(len(letters))
 
 	for i := range b {
-		b[i] = letters[rand.Intn(lettersLength)]
+		b[i] = letters[rand.Int63()%lettersLength]
 	}
 
 	return string(b)
