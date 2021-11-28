@@ -3,13 +3,61 @@
 Do you know [bit.ly](https://bit.ly)? Well... Basically the same thing
 
 ## Setup the app
-### Environment variables
-To setup local environment variables, you can create a `.env` file. To create that, you can copy `.env.sample` with:
+
+You can run the app with or without docker. Both instruction will be avaliable below
+
+### With Docker
+#### Running the app
+Run:
+
+```shell
+docker-compose up
+```
+
+Or, if you wanna docker running on the background
+
+```shell
+docker-compose up -d
+```
+
+#### Testing
+With the app running, run:
+
+```shell
+docker exec url_shortener go test ./...
+```
+
+**NOTE:** To run tests, your local database should be empty. ~~sorry, still working on that~~
+
+### Without docker
+
+#### Setup
+
+1. You should create the database and make it avaliable for connection before running/testing the app;
+2. Create a `.env` file to be read by the app. You can do it running:
 ```shell
 cp .env.sample .env
 ```
-You can fill each variable with the following:
+3. Fill the env file (instruction in [environment variables section](#environment-variables)).
 
+
+#### Running the app
+Run:
+
+```shell
+go run main.go
+```
+
+#### Testing
+Run:
+
+```shell
+go test ./...
+```
+
+**NOTE:** To run tests, your local database should be empty. ~sorry, still working on that~
+
+## Environment variables
 #### `DATABASE_URL`
 Url to connect with database.
 
@@ -36,19 +84,3 @@ host.com/XXXXX
 SHORTENED_URL_CHARS_NUMBER=10
 host.com/XXXXXXXXXX
 ```
-
-## Running the app
-Just run:
-
-```shell
-go run main.go
-```
-
-## Testing
-Just run:
-
-```shell
-go test ./...
-```
-
-**NOTE:** To run tests, your local database should be empty. ~sorry, still working on that~

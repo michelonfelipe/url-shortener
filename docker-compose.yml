@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+
+  postgres:
+    image: postgres:14.1-alpine
+    container_name: url_shortener_postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: url-shortener
+
+  web:
+      image: url-shortener
+      container_name: url_shortener
+      build:
+        context: .
+        dockerfile: Dockerfile
+      command: /bin/sh -c "go build && ./main -b 0.0.0.0:8080"
+      ports:
+        - 8080:8080
+      depends_on:
+        - postgres
+      environment:
+        GIN_MODE: debug
+        DATABASE_URL: postgres://postgres:root@postgres:5432/url-shortener?sslmode=disable
+        SHORTENED_URL_CHARS_NUMBER: 5
+
+volumes:
+  postgres:
