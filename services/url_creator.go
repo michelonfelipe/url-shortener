@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/felipe-michelon/url-shortener/database"
-	"github.com/felipe-michelon/url-shortener/models"
+	"github.com/michelonfelipe/url-shortener/database"
+	"github.com/michelonfelipe/url-shortener/models"
 
 	"errors"
 	"os"

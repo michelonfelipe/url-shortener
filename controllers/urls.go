@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/felipe-michelon/url-shortener/database"
-	"github.com/felipe-michelon/url-shortener/models"
-	"github.com/felipe-michelon/url-shortener/services"
+	"github.com/michelonfelipe/url-shortener/database"
+	"github.com/michelonfelipe/url-shortener/models"
+	"github.com/michelonfelipe/url-shortener/services"
 
 	"net/http"
 

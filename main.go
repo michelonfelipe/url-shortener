@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/felipe-michelon/url-shortener/controllers"
-	"github.com/felipe-michelon/url-shortener/database"
-	"github.com/felipe-michelon/url-shortener/models"
+	"github.com/michelonfelipe/url-shortener/controllers"
+	"github.com/michelonfelipe/url-shortener/database"
+	"github.com/michelonfelipe/url-shortener/models"
 
 	"os"
 

@@ -1,4 +1,4 @@
-module github.com/felipe-michelon/url-shortener
+module github.com/michelonfelipe/url-shortener
 
 go 1.15
 
